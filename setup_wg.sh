@@ -18,6 +18,14 @@ for i in {2..4}; do
   sudo wg genkey | sudo tee /etc/wireguard/client$i_private.key | wg pubkey | sudo tee /etc/wireguard/client$i_public.key
 done
 
+# Проверяем, что ключи для клиентов созданы
+for i in {2..4}; do
+  if [ ! -f /etc/wireguard/client$i_public.key ]; then
+    echo "Ошибка: файл /etc/wireguard/client$i_public.key не найден."
+    exit 1
+  fi
+done
+
 # Создаем конфигурационный файл для сервера
 echo "Создаем конфигурационный файл для сервера..."
 sudo bash -c "cat > /etc/wireguard/wg0.conf" <<EOF
@@ -56,7 +64,7 @@ done
 
 # Запускаем интерфейс WireGuard в фоне
 echo "Запускаем интерфейс WireGuard в фоне..."
-sudo wg-quick up wg0 &
+sudo wg-quick up wg0
 
 # Проверяем статус интерфейса WireGuard
 echo "Проверяем статус интерфейса WireGuard..."
