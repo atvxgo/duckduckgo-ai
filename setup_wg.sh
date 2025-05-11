@@ -67,5 +67,5 @@ sudo wg show
 echo "Конфигурационные файлы для клиентов:"
 for i in {2..4}; do
   echo "wg0_client$i.conf:"
-  cat /etc/wireguard/wg0_client$i.conf
+  sudo cat /etc/wireguard/wg0_client$i.conf
 done
