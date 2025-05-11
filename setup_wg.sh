@@ -15,13 +15,13 @@ sudo wg genkey | sudo tee /etc/wireguard/server_private.key | wg pubkey | sudo t
 # Генерируем ключи для клиентов
 echo "Генерируем ключи для клиентов..."
 for i in {2..4}; do
-  sudo wg genkey | sudo tee /etc/wireguard/client$i_private.key | wg pubkey | sudo tee /etc/wireguard/client$i_public.key
+  sudo wg genkey | sudo tee /etc/wireguard/client${i}_private.key | wg pubkey | sudo tee /etc/wireguard/client${i}_public.key
 done
 
 # Проверяем, что ключи для клиентов созданы
 for i in {2..4}; do
-  if [ ! -f /etc/wireguard/client$i_public.key ]; then
-    echo "Ошибка: файл /etc/wireguard/client$i_public.key не найден."
+  if [ ! -f /etc/wireguard/client${i}_public.key ]; then
+    echo "Ошибка: файл /etc/wireguard/client${i}_public.key не найден."
     exit 1
   fi
 done
@@ -53,7 +53,7 @@ for i in {2..4}; do
   sudo bash -c "cat > /etc/wireguard/wg0_client$i.conf" <<EOF
 [Interface]
 Address = 10.0.0.$i/24
-PrivateKey = $(cat /etc/wireguard/client$i_private.key)
+PrivateKey = $(cat /etc/wireguard/client${i}_private.key)
 
 [Peer]
 PublicKey = $(cat /etc/wireguard/server_public.key)
