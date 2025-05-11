@@ -45,7 +45,6 @@ for i in {2..4}; do
   sudo bash -c "cat > /etc/wireguard/wg0_client$i.conf" <<EOF
 [Interface]
 Address = 10.0.0.$i/24
-ListenPort = 51820
 PrivateKey = $(cat /etc/wireguard/client$i_private.key)
 
 [Peer]
